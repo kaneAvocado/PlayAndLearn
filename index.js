@@ -1,0 +1,6 @@
+import React from 'react';
+import { AppRegistry } from 'react-native';
+import AppNavigator from './AppNavigator'; // Импортируйте AppNavigator
+import { name as appName } from './app.json';
+
+AppRegistry.registerComponent(appName, () => AppNavigator);

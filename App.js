@@ -1,20 +1,18 @@
-import React from 'react'; // Импортируем React из библиотеки react-native
-import { BackHandler } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import React from 'react';
+import { 
+  StyleSheet, 
+  View, 
+  SafeAreaView, 
+  Button, 
+  Alert, 
+  ImageBackground, 
+  Dimensions,
+  TouchableOpacity // Убедитесь, что добавили этот импорт
+} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { Dimensions } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-import {
-  ImageBackground,
-  StyleSheet,
-  Button,
-  View,
-  SafeAreaView,
-  Text,
-  Alert,
-} from 'react-native'; // Импортируем несколько компонентов из библиотеки react-native
 
 const Separator = () => <View style={styles.separator} />; // Создаем компонент Separator, который рендерит View с стилями из объекта styles
 
@@ -37,24 +35,28 @@ const windowHeight = Dimensions.get('window').height; // Получаем выс
 
 const Stack = createStackNavigator();
 
-const App = () => ( // Создаем компонент App
-  <SafeAreaView style={styles.container}>
-     <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-    <View>
-      <Button
-        title="Play & Learn"
-        onPress={() => Alert.alert('Simple Button pressed')}
-      />
-    </View>
-    <TouchableOpacity style={styles.exitButton} onPress={HandelExitButton}>
-      <MaterialIcons name="exit-to-app" size={30} color="black" />
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.settingsButton} onPress={HandelSettingsButton}>
-      <MaterialIcons name="build-circle" size={30} color="black" />
-    </TouchableOpacity>
-    </ImageBackground>
-  </SafeAreaView>
-);
+<Stack.Screen name="Home" component={App} />
+
+const App = ({ navigation }) => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+        <View>
+          <Button
+            title="Play & Learn"
+            onPress={() => Alert.alert('Simple Button pressed')}
+          />
+        </View>
+        <TouchableOpacity style={styles.exitButton} onPress={HandelExitButton}>
+          <MaterialIcons name="exit-to-app" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.settingsButton} onPress={() => navigation.navigate('Settings')}>
+          <MaterialIcons name="build-circle" size={30} color="black" />
+        </TouchableOpacity>
+      </ImageBackground>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({ // Определяем объект стилей с помощью метода StyleSheet.create
   container: {
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({ // Определяем объект стил
     left: 25,  // Отступ слева
     bottom: 25, // Отступ снизу
   },
-  exitButton: {
+  settingsButton: {
     position: 'absolute', // Абсолютное позиционирование
     right: 25,  // Отступ слева
     bottom: 25, // Отступ снизу
