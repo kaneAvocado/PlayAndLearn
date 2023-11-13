@@ -1,4 +1,5 @@
 import React from 'react';
+import { BackHandler } from 'react-native';
 import { 
   StyleSheet, 
   View, 
