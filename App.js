@@ -1,24 +1,23 @@
 import React from 'react';
-import { BackHandler } from 'react-native';
-import { 
-  StyleSheet, 
-  View, 
-  SafeAreaView, 
-  Button, 
-  Alert, 
-  ImageBackground, 
+import {
+  BackHandler,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Button,
+  Alert,
+  ImageBackground,
   Dimensions,
-  TouchableOpacity // Убедитесь, что добавили этот импорт
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
+const Separator = () => <View style={styles.separator} />;
 
-const Separator = () => <View style={styles.separator} />; // Создаем компонент Separator, который рендерит View с стилями из объекта styles
-
-const HandelSettingsButton = () =>{};
-const HandelExitButton = () => Alert.alert(
+const handleExitButton = () => Alert.alert(
   "Вы хотите выйти из приложения?",
   "",
   [
@@ -26,29 +25,26 @@ const HandelExitButton = () => Alert.alert(
     { text: "Нет, не хочу", onPress: () => console.log("Отмена") }
   ]
 );
+
 const handleExitApp = () => {
-  BackHandler.exitApp(); // Работает тольок на android
+  BackHandler.exitApp();
 };
 
-const image = {uri: 'https://i.imgur.com/PNy1DOS.png'};
-const windowWidth = Dimensions.get('window').width; // Получаем ширину окна
-const windowHeight = Dimensions.get('window').height; // Получаем высоту окна
+const image = { uri: 'https://i.imgur.com/PNy1DOS.png' };
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const Stack = createStackNavigator();
 
-<Stack.Screen name="Home" component={App} />
-
-const App = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <View>
-          <Button
-            title="Play & Learn"
-            onPress={() => Alert.alert('Simple Button pressed')}
-          />
-        </View>
-        <TouchableOpacity style={styles.exitButton} onPress={HandelExitButton}>
+        <Button
+          title="Play & Learn"
+          onPress={() => Alert.alert('Simple Button pressed')}
+        />
+        <TouchableOpacity style={styles.exitButton} onPress={handleExitButton}>
           <MaterialIcons name="exit-to-app" size={30} color="black" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.settingsButton} onPress={() => navigation.navigate('Settings')}>
@@ -59,36 +55,33 @@ const App = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({ // Определяем объект стилей с помощью метода StyleSheet.create
+const SettingsScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Настройки</Text>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
   container: {
-    flex: 1, // Устанавливаем flex-свойство контейнера
-    justifyContent: 'center', // Выравниваем контент по центру по вертикали
-  },
-  title: {
-    textAlign: 'center', // Выравниваем текст по центру
-    marginVertical: 8, // Устанавливаем вертикальный отступ
-  },
-  fixToText: {
-    flexDirection: 'row', // Устанавливаем направление flex-контейнера в строку
-    justifyContent: 'space-between', // Распределяем элементы по горизонтали с равным пространством между ними
+    flex: 1,
+    justifyContent: 'center',
   },
   separator: {
-    marginVertical: 8, // Устанавливаем вертикальный отступ
-    borderBottomColor: '#737373', // Устанавливаем цвет нижней границы
-    borderBottomWidth: StyleSheet.hairlineWidth, // Устанавливаем тонкость нижней границы
-  },
-  text: {
-    color: 'red',
+    marginVertical: 8,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   exitButton: {
-    position: 'absolute', // Абсолютное позиционирование
-    left: 25,  // Отступ слева
-    bottom: 25, // Отступ снизу
+    position: 'absolute',
+    left: 25,
+    bottom: 25,
   },
   settingsButton: {
-    position: 'absolute', // Абсолютное позиционирование
-    right: 25,  // Отступ слева
-    bottom: 25, // Отступ снизу
+    position: 'absolute',
+    right: 25,
+    bottom: 25,
   },
   image: {
     width: windowWidth,
@@ -97,4 +90,15 @@ const styles = StyleSheet.create({ // Определяем объект стил
   },
 });
 
-export default App; // Экспортируем компонент App по умолчанию
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default App;

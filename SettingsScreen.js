@@ -1,4 +1,4 @@
-import React from 'react';
+/* import React from 'react';
 import { View, Button, Alert, StyleSheet } from 'react-native';
 
 const SettingsScreen = ({ navigation }) => {
@@ -38,3 +38,4 @@ const styles = StyleSheet.create({
 });
 
 export default SettingsScreen;
+ */
