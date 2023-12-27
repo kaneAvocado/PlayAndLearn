@@ -1,104 +1,40 @@
-import React from 'react';
-import {
-  BackHandler,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  Button,
-  Alert,
-  ImageBackground,
-  Dimensions,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { NavigationContainer } from '@react-navigation/native'; 
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-
-const Separator = () => <View style={styles.separator} />;
-
-const handleExitButton = () => Alert.alert(
-  "Вы хотите выйти из приложения?",
-  "",
-  [
-    { text: "Да, я хочу", onPress: handleExitApp },
-    { text: "Нет, не хочу", onPress: () => console.log("Отмена") }
-  ]
-);
-
-const handleExitApp = () => {
-  BackHandler.exitApp();
-};
-
-const image = { uri: 'https://i.imgur.com/PNy1DOS.png' };
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
+import { ThemeProvider} from 'react-native-elements';
+// import LoginScreen from './screens/LoginScreen';
+// import RegisterScreen from './screens/RegisterScreen';
+import HomeScreen from './screens/HomeScreen.js';
+import TasksScreen from './screens/TasksScreen.js';
+// Навигационный стек экранов. Позволяет упорядоченно переключатся между экранами
 const Stack = createStackNavigator();
 
-const HomeScreen = ({ navigation }) => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <Button
-          title="Play & Learn"
-          onPress={() => Alert.alert('Simple Button pressed')}
-        />
-        <TouchableOpacity style={styles.exitButton} onPress={handleExitButton}>
-          <MaterialIcons name="exit-to-app" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.settingsButton} onPress={() => navigation.navigate('Settings')}>
-          <MaterialIcons name="build-circle" size={30} color="black" />
-        </TouchableOpacity>
-      </ImageBackground>
-    </SafeAreaView>
-  );
+const globalScreenOptions = {
+    headerStyle: {backgroundColor: "#37B34A"},
+    headerTitleStyle: { color: "white" },
+    headerTintColor: "white",
 };
 
-const SettingsScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Настройки</Text>
-    </View>
-  );
+const theme = {
+  colors: {
+    primary: '#37B34A',
+  }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  exitButton: {
-    position: 'absolute',
-    left: 25,
-    bottom: 25,
-  },
-  settingsButton: {
-    position: 'absolute',
-    right: 25,
-    bottom: 25,
-  },
-  image: {
-    width: windowWidth,
-    height: windowHeight,
-    justifyContent: "center",
-  },
-});
-
-const App = () => {
+export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    // Обертка для доступа всех дочерних компонентов к теме приложения
+    <ThemeProvider theme={theme}>
+      {/* Контейнер для организации навигации между экранами */}
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={globalScreenOptions}>
+          {/* Экраны приложения. По name осуществляется поиск, а затем переключение на соответствующий component */}
+          {/* Через options можно настроить внешний вид верхней плашки. В данном случае указан заголовок экрана */}
+          {/* <Stack.Screen options={{title: "Login"}} name="Login" component={LoginScreen}/> */}
+          {/* <Stack.Screen options={{title: "Register"}} name="Register" component={RegisterScreen}/> */}
+          <Stack.Screen options={{title: "Home"}} name="Home" component={HomeScreen}/>
+          <Stack.Screen options={{ title: "Tasks" }} name="Tasks" component={TasksScreen} />
+          </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
-};
-
-export default App;
+}
