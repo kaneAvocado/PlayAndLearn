@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'; 
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider} from 'react-native-elements';
-// import LoginScreen from './screens/LoginScreen';
+import LoginScreen from './screens/LoginScreen';
 // import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen.js';
 import TasksScreen from './screens/TasksScreen.js';
@@ -29,7 +29,7 @@ export default function App() {
         <Stack.Navigator screenOptions={globalScreenOptions}>
           {/* Экраны приложения. По name осуществляется поиск, а затем переключение на соответствующий component */}
           {/* Через options можно настроить внешний вид верхней плашки. В данном случае указан заголовок экрана */}
-          {/* <Stack.Screen options={{title: "Login"}} name="Login" component={LoginScreen}/> */}
+          <Stack.Screen options={{title: "Login"}} name="Login" component={LoginScreen}/>
           {/* <Stack.Screen options={{title: "Register"}} name="Register" component={RegisterScreen}/> */}
           <Stack.Screen options={{title: "Home"}} name="Home" component={HomeScreen}/>
           <Stack.Screen options={{ title: "Tasks" }} name="Tasks" component={TasksScreen} />
