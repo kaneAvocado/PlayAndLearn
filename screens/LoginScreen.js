@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { TextInput, Button, Text, View } from 'react-native';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import app from '../firebaseConfig';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 import { useNavigation } from '@react-navigation/native';
 
 function LoginScreen() {
