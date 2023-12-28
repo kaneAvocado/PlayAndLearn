@@ -102,3 +102,13 @@ const App = () => {
 };
 
 export default App;
+
+const goToRegisterScreen = () => {
+    navigation.navigate('Register'); 
+  };
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'left', alignItems: 'center' }}>
+      <Button title="Sing up" onPress={goToRegisterScreen} />
+    </View>
+  );

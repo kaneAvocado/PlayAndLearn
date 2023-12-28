@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { TextInput, Button, Text, View } from 'react-native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigation } from '@react-navigation/native';
 
 function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+
+  const navigation = useNavigation(); 
 
   const handleLogin = () => {
     const auth = getAuth();
@@ -13,14 +16,16 @@ function LoginScreen() {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        // Вы можете перенаправить пользователя на другой экран или выполнить другие действия
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        // Обновить состояние, чтобы отобразить ошибку
         setLoginError(errorMessage);
       });
+  };
+
+  const goToRegister = () => {
+    navigation.navigate('Register');
   };
 
   return (
@@ -38,6 +43,7 @@ function LoginScreen() {
       />
       <Button title="Login" onPress={handleLogin} />
       {loginError ? <Text>{loginError}</Text> : null}
+      <Button title="Регистрация" onPress={goToRegister} />
     </View>
   );
 }
