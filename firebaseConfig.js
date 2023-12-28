@@ -1,6 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-
+import { 
+  initializeAuth, 
+  getReactNativePersistence 
+} from "firebase/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,5 +19,9 @@ const firebaseConfig = {
   measurementId: "G-TF0LL01J4T"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Обновленная инициализация Auth с AsyncStorage
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage)
+});
