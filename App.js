@@ -1,11 +1,14 @@
 import { NavigationContainer } from '@react-navigation/native'; 
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider} from 'react-native-elements';
+import { StyleSheet } from 'react-native';
 import LoginScreen from './screens/LoginScreen.js';
 import firebase from 'firebase/app';
 import RegisterScreen from './screens/RegisterScreen.js';
 import HomeScreen from './screens/HomeScreen.js';
 import TasksScreen from './screens/TasksScreen.js';
+import { TouchableOpacity } from 'react-native';
+
 // Навигационный стек экранов. Позволяет упорядоченно переключатся между экранами
 const Stack = createStackNavigator();
 
