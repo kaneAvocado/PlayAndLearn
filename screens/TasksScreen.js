@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { db } from '../firebaseConfig.js'; // Импорт экземпляра базы данных Firestore
-import { doc, getDoc } from "firebase/firestore"; // Импорт необходимых функций Firestore
+import { db } from '../firebaseConfig.js';
+import { doc, getDoc } from "firebase/firestore";
 
 function TasksScreen() {
-  // Состояния для хранения текущей задачи, ответа пользователя и правильного ответа
   const [task, setTask] = useState('');
   const [userAnswer, setUserAnswer] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
+  const [currentTaskId, setCurrentTaskId] = useState(0); // Состояние для текущего ID задачи
+  const taskIds = ["Task1", "Task2", "Task3", "Task4", "Task5"]; // Массив ID задач
 
-  // Функция для асинхронной загрузки задачи из Firestore
   const loadTask = async () => {
     try {
-      // Получение ссылки на документ в коллекции 'tasks'
-      const docRef = doc(db, "Tasks", "Task1"); // Используйте реальный ID документа
+      const docRef = doc(db, "Tasks", taskIds[currentTaskId]); // Используйте текущий ID задачи
 
-      // Асинхронное получение данных документа
       const docSnap = await getDoc(docRef);
 
-      // Проверка наличия документа и обновление состояний
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setTask(data.Question); // Установка текста задачи
-        setCorrectAnswer(data.Answer); // Установка правильного ответа
+        setTask(data.Question);
+        setCorrectAnswer(data.Answer);
       } else {
         console.log("No such document!");
       }
@@ -31,27 +28,23 @@ function TasksScreen() {
     }
   };
 
-  // Эффект для загрузки задачи при монтировании компонента
   useEffect(() => {
     loadTask();
-  }, []);
+  }, [currentTaskId]); // Загружайте задачу при изменении текущего ID
 
-  // Функция для проверки правильности ответа пользователя
   const checkAnswer = () => {
     if (userAnswer.trim() === correctAnswer) {
       alert("Правильно!");
+      // Переход к следующей задаче при правильном ответе
+      setCurrentTaskId(currentTaskId + 1);
     } else {
       alert("Неправильно. Попробуйте еще раз.");
     }
   };
 
-  // Рендер компонента
   return (
     <View style={styles.container}>
-      {/* Отображение вопроса задачи */}
       <Text style={styles.taskText}>{task || "Загрузка задачи..."}</Text>
-
-      {/* Поле ввода для ответа пользователя */}
       <TextInput
         style={styles.input}
         onChangeText={setUserAnswer}
@@ -59,14 +52,11 @@ function TasksScreen() {
         keyboardType="numeric"
         placeholder="Введите ваш ответ"
       />
-
-      {/* Кнопка для проверки ответа */}
       <Button title="Проверить ответ" onPress={checkAnswer} />
     </View>
   );
 }
 
-// Стили для компонента
 const styles = StyleSheet.create({
   container: {
     flex: 1,
