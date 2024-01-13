@@ -33,8 +33,8 @@ export default function App() {
         <Stack.Navigator screenOptions={globalScreenOptions}>
           {/* Экраны приложения. По name осуществляется поиск, а затем переключение на соответствующий component */}
           {/* Через options можно настроить внешний вид верхней плашки. В данном случае указан заголовок экрана */}
-          <Stack.Screen options={{title: "Login"}} name="Login" component={LoginScreen}/>
-          <Stack.Screen options={{title: "Register"}} name="Register" component={RegisterScreen}/>
+          {/* <Stack.Screen options={{title: "Login"}} name="Login" component={LoginScreen}/>
+          <Stack.Screen options={{title: "Register"}} name="Register" component={RegisterScreen}/> */}
           <Stack.Screen options={{title: "Home"}} name="Home" component={HomeScreen}/>
           <Stack.Screen options={{ title: "Tasks" }} name="Tasks" component={TasksScreen} />
           </Stack.Navigator>
